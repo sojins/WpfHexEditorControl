@@ -2092,14 +2092,13 @@ namespace WpfHexaEditor
             //Refresh stream
             if (!CheckIsOpen(_provider)) return;
 
-            using (var stream = new MemoryStream())
-            {
-                _provider.Position = 0;
-                _provider.Stream.CopyTo(stream);
+            var stream = new MemoryStream();
 
-                CloseProvider();
-                OpenStream(stream);
-            }
+            _provider.Position = 0;
+            _provider.Stream.CopyTo(stream);
+
+            CloseProvider();
+            OpenStream(stream);
 
             ChangesSubmited?.Invoke(this, new EventArgs());
         }
