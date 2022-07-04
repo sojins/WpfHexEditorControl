@@ -403,6 +403,10 @@ namespace WpfHexaEditor.Core.Bytes
 
                             _stream.Position = bm.Key;
                             _stream.WriteByte(bm.Value.Byte.Value);
+
+                            //Clear the edited bytes background colour.
+                            bm.Value.Action = ByteAction.Nothing;
+                            _byteModifiedDictionary.Remove(bm);
                         }
 
                     #endregion

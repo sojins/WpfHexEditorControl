@@ -1023,7 +1023,11 @@ namespace WpfHexaEditor
             if (_provider.ReadOnlyMode) return;
 
             if (sender is IByteControl ctrl)
+            {
                 ModifyByte(ctrl.Byte.Byte[e.Index], ctrl.BytePositionInStream + e.Index);
+
+                e.BytePositionInStream = ctrl.BytePositionInStream;
+            }
 
             BytesModified?.Invoke(this, e);
         }
@@ -2092,13 +2096,7 @@ namespace WpfHexaEditor
             //Refresh stream
             if (!CheckIsOpen(_provider)) return;
 
-            var stream = new MemoryStream();
-
-            _provider.Position = 0;
-            _provider.Stream.CopyTo(stream);
-
-            CloseProvider();
-            OpenStream(stream);
+            RefreshView(true);
 
             ChangesSubmited?.Invoke(this, new EventArgs());
         }
