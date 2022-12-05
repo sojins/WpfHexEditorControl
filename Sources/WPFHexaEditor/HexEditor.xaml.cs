@@ -652,6 +652,20 @@ namespace WpfHexaEditor
             DependencyProperty.Register(nameof(OffSetPanelFixedWidthVisual), typeof(OffSetPanelFixedWidth), typeof(HexEditor),
                 new FrameworkPropertyMetadata(OffSetPanelFixedWidth.Dynamic, OffSetPanelVisual_PropertyChanged));
 
+
+        /// <summary>
+        /// Get or set the offset base, which is added to all offsets before they are displayed
+        /// </summary>
+        public long OffsetBase
+        {
+            get => (long)GetValue(OffsetBaseProperty);
+            set => SetValue(OffsetBaseProperty, value);
+        }
+
+        public static readonly DependencyProperty OffsetBaseProperty =
+            DependencyProperty.Register(nameof(OffsetBase), typeof(long), typeof(HexEditor),
+                new FrameworkPropertyMetadata(0L, OffSetPanelVisual_PropertyChanged));
+
         /// <summary>
         /// Get or set of the tooltip are shown over the IByteControl
         /// </summary>
@@ -3263,6 +3277,8 @@ namespace WpfHexaEditor
 
                         actualPosition = firstByteInLine;
                     }
+
+                    actualPosition += OffsetBase;
 
                     //update the visual
                     switch (OffSetStringVisual)
