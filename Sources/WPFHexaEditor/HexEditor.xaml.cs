@@ -1018,7 +1018,7 @@ namespace WpfHexaEditor
         {
             if (!CheckIsOpen(_provider)) return;
 
-            ReadOnlyMode = _provider.IsLockedFile || _provider.ReadOnlyMode;
+            SetCurrentValue(ReadOnlyModeProperty, _provider.IsLockedFile || _provider.ReadOnlyMode);
 
             ReadOnlyChanged?.Invoke(sender, e);
         }
@@ -5072,8 +5072,9 @@ namespace WpfHexaEditor
             #endregion
 
             #region Set the readonly mode
-            ReadOnlyMode = bool.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(ReadOnlyMode)).Value, out bool readOnlyMode)
-&& readOnlyMode;
+
+            SetCurrentValue(ReadOnlyModeProperty, bool.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(ReadOnlyMode)).Value, out bool readOnlyMode) && readOnlyMode);
+
             #endregion
         }
 
