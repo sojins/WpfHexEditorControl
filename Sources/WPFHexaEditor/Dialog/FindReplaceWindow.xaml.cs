@@ -77,7 +77,7 @@ namespace WpfHexaEditor.Dialog
             var ms = new MemoryStream(1);
 
             if (findData is not null && findData.Length > 0)
-                foreach (byte b in findData)
+                foreach (var b in findData)
                     ms.WriteByte(b);
             else
                 ms.WriteByte(0);

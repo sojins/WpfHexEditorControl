@@ -13,7 +13,7 @@ namespace WpfHexaEditor.Dialog
     /// </summary>
     public partial class FindWindow
     {
-        private MemoryStream _findMs = new MemoryStream(1);
+        private MemoryStream _findMs = new(1);
         private readonly HexEditor _parent;
 
         public FindWindow(HexEditor parent, byte[] findData = null)
@@ -54,7 +54,7 @@ namespace WpfHexaEditor.Dialog
             _findMs = new MemoryStream(1);
 
             if (findData is not null && findData.Length > 0)
-                foreach (byte b in findData)
+                foreach (var b in findData)
                     _findMs.WriteByte(b);
             else
                 _findMs.WriteByte(0);

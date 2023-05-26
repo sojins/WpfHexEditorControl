@@ -16,7 +16,7 @@ namespace WpfHexaEditor.Core
         /// </summary>
         public static SolidColorBrush PickBrush()
         {
-            PropertyInfo[] properties = typeof(Brushes).GetProperties();
+            var properties = typeof(Brushes).GetProperties();
 
             return (SolidColorBrush)properties
                 [

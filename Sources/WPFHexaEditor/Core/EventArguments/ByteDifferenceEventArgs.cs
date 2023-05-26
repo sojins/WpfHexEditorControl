@@ -20,6 +20,6 @@ namespace WpfHexaEditor.Core.EventArguments
         /// <summary>
         /// ByteDifference to pass in arguments
         /// /// </summary>
-        public ByteDifference ByteDiff = null;
+        public ByteDifference ByteDiff;
     }
 }

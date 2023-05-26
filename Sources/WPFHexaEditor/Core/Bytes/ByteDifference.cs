@@ -13,8 +13,8 @@ namespace WpfHexaEditor.Core.Bytes
     /// </summary>
     public class ByteDifference : ICloneable
     {
-        public byte Origine { get; set; } = 0;
-        public byte Destination { get; set; } = 0;
+        public byte Origine { get; set; }
+        public byte Destination { get; set; }
         public long BytePositionInStream { get; set; } = -1;
 
         public SolidColorBrush Color { get; set; } = Brushes.Transparent;

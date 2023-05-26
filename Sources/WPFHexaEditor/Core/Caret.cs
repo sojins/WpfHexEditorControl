@@ -23,7 +23,7 @@ namespace WpfHexaEditor.Core
         #region Global class variables
         private Timer _timer;
         private Point _position;
-        private readonly Pen _pen = new Pen(Brushes.Black, 1);
+        private readonly Pen _pen = new(Brushes.Black, 1);
         private readonly Brush _brush = new SolidColorBrush(Colors.Black);
         private int _blinkPeriod = 500;
         private double _caretHeight = 18;
@@ -92,7 +92,7 @@ namespace WpfHexaEditor.Core
 
                 //InitializeTimer();
 
-                OnPropertyChanged(nameof(CaretHeight));
+                OnPropertyChanged();
             }
         }
 
@@ -109,7 +109,7 @@ namespace WpfHexaEditor.Core
 
                 _caretWidth = value;
 
-                OnPropertyChanged(nameof(CaretWidth));
+                OnPropertyChanged();
             }
         }
 
@@ -132,7 +132,7 @@ namespace WpfHexaEditor.Core
                 if (Visible) Visible = false;
 
                 OnPropertyChanged(nameof(Position));
-                OnPropertyChanged(nameof(Left));
+                OnPropertyChanged();
             }
         }
 
@@ -150,7 +150,7 @@ namespace WpfHexaEditor.Core
                 if (Visible) Visible = false;
 
                 OnPropertyChanged(nameof(Position));
-                OnPropertyChanged(nameof(Top));
+                OnPropertyChanged();
             }
         }
 
@@ -170,7 +170,7 @@ namespace WpfHexaEditor.Core
                 _blinkPeriod = value;
                 InitializeTimer();
 
-                OnPropertyChanged(nameof(BlinkPeriod));
+                OnPropertyChanged();
             }
         }
 
@@ -186,7 +186,7 @@ namespace WpfHexaEditor.Core
 
                 _caretMode = value;
 
-                OnPropertyChanged(nameof(CaretMode));
+                OnPropertyChanged();
             }
         }
 

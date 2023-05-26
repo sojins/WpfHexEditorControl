@@ -40,7 +40,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
         }
 
         private void PatchBlockButton_Click(object sender, System.Windows.RoutedEventArgs e) =>
-            PatchButtonClick?.Invoke(this, new EventArgs());
+            PatchButtonClick?.Invoke(this, EventArgs.Empty);
 
         private void UserControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) =>
             Background = Brushes.Orange;
@@ -50,7 +50,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
 
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Click?.Invoke(this, new EventArgs());
+            Click?.Invoke(this, EventArgs.Empty);
         }
     }
 }

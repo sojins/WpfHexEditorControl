@@ -52,7 +52,7 @@ namespace WPFHexaEditorExample
             #region Open multiple file and add tabs
             Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-            foreach (string file in fileDialog.FileNames)
+            foreach (var file in fileDialog.FileNames)
                 FileTab.Items.Add(new TabItem
                 {
                     Header = Path.GetFileName(file),

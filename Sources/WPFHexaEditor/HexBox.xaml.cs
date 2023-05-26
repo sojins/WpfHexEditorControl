@@ -97,7 +97,7 @@ namespace WpfHexaEditor
             ctrl.HexTextBox.CaretIndex = ctrl.HexTextBox.Text.Length;
             ctrl.ToolTip = e.NewValue;
 
-            ctrl.ValueChanged?.Invoke(ctrl, new EventArgs());
+            ctrl.ValueChanged?.Invoke(ctrl, EventArgs.Empty);
         }
 
         #endregion Properties       

@@ -80,7 +80,7 @@ namespace WpfHexaEditor.Core.Bytes
         /// <summary>
         /// Copy Current instance to another
         /// </summary>
-        public ByteModified GetCopy() => new ByteModified
+        public ByteModified GetCopy() => new()
         {
             Action = Action,
             Byte = Byte,

@@ -32,7 +32,7 @@ namespace WpfHexaEditor.Core.Bytes
         private string _fileName = string.Empty;
         private Stream _stream;
         private bool _readOnlyMode;
-        private bool _canInsertAnywhere = false;
+        private bool _canInsertAnywhere;
         private double _longProcessProgress;
         private string _newfilename = string.Empty;
         #endregion Globals variable
@@ -100,7 +100,7 @@ namespace WpfHexaEditor.Core.Bytes
         /// <summary>
         /// Get if the file is locked / read-only
         /// </summary>
-        public bool IsLockedFile { get; internal set; } = false;
+        public bool IsLockedFile { get; internal set; }
 
         /// <summary>
         /// Get the type of stream are opened in byteprovider.
@@ -159,7 +159,7 @@ namespace WpfHexaEditor.Core.Bytes
 
                 _stream = value;
 
-                StreamOpened?.Invoke(this, new EventArgs());
+                StreamOpened?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -192,7 +192,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             StreamType = ByteProviderStreamType.File;
 
-            StreamOpened?.Invoke(this, new EventArgs());
+            StreamOpened?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace WpfHexaEditor.Core.Bytes
                 _readOnlyMode = IsLockedFile || value;
 
                 //Launch event
-                ReadOnlyChanged?.Invoke(this, new EventArgs());
+                ReadOnlyChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -221,7 +221,7 @@ namespace WpfHexaEditor.Core.Bytes
                 _canInsertAnywhere = value;
 
                 //Launch event
-                CanInsertAnywhereChanged?.Invoke(this, new EventArgs());
+                CanInsertAnywhereChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -246,7 +246,7 @@ namespace WpfHexaEditor.Core.Bytes
             ClearUndoChange();
             StreamType = ByteProviderStreamType.Nothing;
 
-            Closed?.Invoke(this, new EventArgs());
+            Closed?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion Open/close stream property/methods
@@ -274,7 +274,7 @@ namespace WpfHexaEditor.Core.Bytes
 
                 _stream.Position = value;
 
-                PositionChanged?.Invoke(this, new EventArgs());
+                PositionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -364,7 +364,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             //Launch event at process started
             IsOnLongProcess = true;
-            LongProcessStarted?.Invoke(this, new EventArgs());
+            LongProcessStarted?.Invoke(this, EventArgs.Empty);
 
             //Set percent of progress to zero and create and iterator for help mesure progress
             LongProcessProgress = 0;
@@ -551,17 +551,17 @@ namespace WpfHexaEditor.Core.Bytes
             //Launch event at process completed
             if (cancel)
             {
-                LongProcessCanceled?.Invoke(this, new EventArgs());
+                LongProcessCanceled?.Invoke(this, EventArgs.Empty);
             }
             else
             {
                 IsOnLongProcess = false;
-                LongProcessCompleted?.Invoke(this, new EventArgs());
+                LongProcessCompleted?.Invoke(this, EventArgs.Empty);
             }
 
 
             //Launch event
-            ChangesSubmited?.Invoke(this, new EventArgs());
+            ChangesSubmited?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion SubmitChanges to file/stream
@@ -699,7 +699,7 @@ namespace WpfHexaEditor.Core.Bytes
         {
             //Launch event at process strated
             IsOnLongProcess = true;
-            LongProcessStarted?.Invoke(this, new EventArgs());
+            LongProcessStarted?.Invoke(this, EventArgs.Empty);
 
             Position = startPosition;
 
@@ -722,12 +722,12 @@ namespace WpfHexaEditor.Core.Bytes
                         AddByteModified(b, Position - 1);
                 }
 
-                FillWithByteCompleted?.Invoke(this, new EventArgs());
+                FillWithByteCompleted?.Invoke(this, EventArgs.Empty);
             }
 
             //Launch event at process completed
             IsOnLongProcess = false;
-            LongProcessCompleted?.Invoke(this, new EventArgs());
+            LongProcessCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -739,7 +739,7 @@ namespace WpfHexaEditor.Core.Bytes
         {
             //Launch event at process strated
             IsOnLongProcess = true;
-            LongProcessStarted?.Invoke(this, new EventArgs());
+            LongProcessStarted?.Invoke(this, EventArgs.Empty);
 
             Position = startPosition;
 
@@ -762,12 +762,12 @@ namespace WpfHexaEditor.Core.Bytes
                         AddByteModified(replace, Position - 1);
                 }
 
-                ReplaceByteCompleted?.Invoke(this, new EventArgs());
+                ReplaceByteCompleted?.Invoke(this, EventArgs.Empty);
             }
 
             //Launch event at process completed
             IsOnLongProcess = false;
-            LongProcessCompleted?.Invoke(this, new EventArgs());
+            LongProcessCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion Bytes modifications methods
@@ -921,7 +921,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             Clipboard.SetDataObject(da, true);
 
-            DataCopiedToClipboard?.Invoke(this, new EventArgs());
+            DataCopiedToClipboard?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -1108,7 +1108,7 @@ namespace WpfHexaEditor.Core.Bytes
             else
                 throw new IOException(Resources.WritingErrorExeptionString);
 
-            DataCopiedToStream?.Invoke(this, new EventArgs());
+            DataCopiedToStream?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -1152,7 +1152,7 @@ namespace WpfHexaEditor.Core.Bytes
                     else
                         break;
 
-                DataPasted?.Invoke(this, new EventArgs());
+                DataPasted?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -1191,7 +1191,7 @@ namespace WpfHexaEditor.Core.Bytes
                     else
                         break;
 
-                DataPasted?.Invoke(this, new EventArgs());
+                DataPasted?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -1251,7 +1251,7 @@ namespace WpfHexaEditor.Core.Bytes
                         RedoStack.Push(last);
                     }
 
-            Undone?.Invoke(bytePositionList, new EventArgs());
+            Undone?.Invoke(bytePositionList, EventArgs.Empty);
         }
 
         /// <summary>
@@ -1279,7 +1279,7 @@ namespace WpfHexaEditor.Core.Bytes
                             addUndo(last);
                         }
 
-                Redone?.Invoke(bytePositionList, new EventArgs());
+                Redone?.Invoke(bytePositionList, EventArgs.Empty);
             }
 
             #region local fonction
@@ -1327,12 +1327,12 @@ namespace WpfHexaEditor.Core.Bytes
         /// <summary>
         /// Gets the undo stack.
         /// </summary>
-        public Stack<ByteModified> UndoStack { get; } = new Stack<ByteModified>();
+        public Stack<ByteModified> UndoStack { get; } = new();
 
         /// <summary>
         /// Gets the redo stack.
         /// </summary>
-        public Stack<ByteModified> RedoStack { get; } = new Stack<ByteModified>();
+        public Stack<ByteModified> RedoStack { get; } = new();
 
         /// <summary>
         /// Get or set for indicate if control CanUndo
@@ -1408,7 +1408,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             //Launch event at process strated
             IsOnLongProcess = true;
-            LongProcessStarted?.Invoke(this, new EventArgs());
+            LongProcessStarted?.Invoke(this, EventArgs.Empty);
 
             //start find
             for (var i = startPosition; i < Length; i++)
@@ -1452,9 +1452,9 @@ namespace WpfHexaEditor.Core.Bytes
 
             //Launch event at process completed
             if (cancel)
-                LongProcessCanceled?.Invoke(this, new EventArgs());
+                LongProcessCanceled?.Invoke(this, EventArgs.Empty);
             else
-                LongProcessCompleted?.Invoke(this, new EventArgs());
+                LongProcessCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion Find methods
@@ -1477,7 +1477,7 @@ namespace WpfHexaEditor.Core.Bytes
             internal set
             {
                 _longProcessProgress = value;
-                LongProcessChanged?.Invoke(value, new EventArgs());
+                LongProcessChanged?.Invoke(value, EventArgs.Empty);
             }
         }
 
@@ -1521,7 +1521,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             //Launch event at process strated
             IsOnLongProcess = true;
-            LongProcessStarted?.Invoke(this, new EventArgs());
+            LongProcessStarted?.Invoke(this, EventArgs.Empty);
 
             const int copyBufferSize = 1024 * 1024;
             var cancel = false;
@@ -1553,11 +1553,11 @@ namespace WpfHexaEditor.Core.Bytes
             //Launch event at process completed
             if (cancel)
             {
-                LongProcessCanceled?.Invoke(this, new EventArgs());
+                LongProcessCanceled?.Invoke(this, EventArgs.Empty);
                 return null;
             }
 
-            LongProcessCompleted?.Invoke(this, new EventArgs());
+            LongProcessCompleted?.Invoke(this, EventArgs.Empty);
 
             return storedCnt;
         }
@@ -1577,10 +1577,10 @@ namespace WpfHexaEditor.Core.Bytes
             _stream.Position = _stream.Length;
             _stream.SetLength(Length + bytesToAppend.Length);
 
-            foreach (byte b in bytesToAppend)
+            foreach (var b in bytesToAppend)
                 _stream.WriteByte(b);
 
-            BytesAppendCompleted?.Invoke(this, new EventArgs());
+            BytesAppendCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -1596,7 +1596,7 @@ namespace WpfHexaEditor.Core.Bytes
             for (var i = 0; i < count; i++)
                 _stream.WriteByte(byteToAppend);
 
-            BytesAppendCompleted?.Invoke(this, new EventArgs());
+            BytesAppendCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion Append byte at end of file
@@ -1622,7 +1622,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             #endregion
 
-            foreach (byte b in data)
+            foreach (var b in data)
                 AddByteModified(b, --startPosition, data.Length);
         }
 
@@ -1643,7 +1643,7 @@ namespace WpfHexaEditor.Core.Bytes
                 ? Length
                 : providerToCompare.Length;
 
-            for (int i = 0; i < maxlength; i++)
+            for (var i = 0; i < maxlength; i++)
             {
                 //NEED TO BE OPTIMISED 
                 var origineByte = GetByte(i, compareChange).singleByte;

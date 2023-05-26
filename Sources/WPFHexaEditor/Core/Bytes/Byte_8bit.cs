@@ -37,10 +37,10 @@ namespace WpfHexaEditor.Core.Bytes
 
         public string GetText(DataVisualType type, DataVisualState state, ByteOrderType order)
         {
-            string text = "";
+            var text = "";
             byte value;
-            bool sign_positive = true;
-            string prefix = "";
+            var sign_positive = true;
+            var prefix = "";
 
             switch (state)
             {
@@ -118,8 +118,8 @@ namespace WpfHexaEditor.Core.Bytes
 
         public (ByteAction, bool) Update(DataVisualType type, Key _key, ByteOrderType byteOrder, ref KeyDownLabel _keyDownLabel)
         {
-            ByteAction Action = ByteAction.Nothing;
-            bool isLastChar = false;
+            var Action = ByteAction.Nothing;
+            var isLastChar = false;
             switch (type)
             {
                 case DataVisualType.Hexadecimal:
@@ -166,7 +166,7 @@ namespace WpfHexaEditor.Core.Bytes
                         : 0.ToString();
 
                     //Update byte
-                    char[] byteValueCharArray_dec = Byte[0].ToString("d3").ToCharArray(); //[change]
+                    var byteValueCharArray_dec = Byte[0].ToString("d3").ToCharArray(); //[change]
                     switch (_keyDownLabel)
                     {
                         case KeyDownLabel.FirstChar:
@@ -213,7 +213,7 @@ namespace WpfHexaEditor.Core.Bytes
                         : 0.ToString();
 
                     //Update byte
-                    char[] byteValueCharArray_bin = Convert
+                    var byteValueCharArray_bin = Convert
                         .ToString(Byte[0], 2) //[change]
                         .PadLeft(8, '0')
                         .ToCharArray();

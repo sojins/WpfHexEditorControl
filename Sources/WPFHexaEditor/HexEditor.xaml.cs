@@ -45,7 +45,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// Byte provider for work with file or stream currently loaded in control.
         /// </summary>
-        internal ByteProvider _provider;
+        private ByteProvider _provider;
 
         /// <summary>
         /// The large change of scroll when clicked on scrollbar
@@ -55,7 +55,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// List of byte are highlighted
         /// </summary>
-        private Dictionary<long, long> _markedPositionList = new Dictionary<long, long>();
+        private Dictionary<long, long> _markedPositionList = new();
 
         /// <summary>
         /// Byte position in file when mouse right click occurs.
@@ -102,7 +102,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// Caret used in control to view position
         /// </summary>
-        private readonly Caret _caret = new Caret();
+        private readonly Caret _caret = new();
 
         /// <summary>
         /// For detect redondants call when disposing control
@@ -112,7 +112,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// For detect redondants call on SetFocusHexDataPanel and SetFocusStringDataPanel
         /// </summary>
-        bool _setFocusTest = false;
+        bool _setFocusTest;
 
         /// <summary>
         /// Highlight the header and offset on SelectionStart property
@@ -127,7 +127,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// Get or set the scale transform to work with zoom
         /// </summary>
-        private ScaleTransform _scaler = null;
+        private ScaleTransform _scaler;
 
         /// <summary>
         /// Allow or not the zoom in control
@@ -614,7 +614,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty LineHeightProperty =
             DependencyProperty.Register(nameof(LineHeight), typeof(double), typeof(HexEditor),
-                new FrameworkPropertyMetadata(18D, (DependencyObject d, DependencyPropertyChangedEventArgs e) => 
+                new FrameworkPropertyMetadata(18D, (d, _) => 
                 {
                     if (d is HexEditor ctrl)
                         ctrl.RefreshView();
@@ -712,7 +712,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty OffSetStringVisualProperty =
             DependencyProperty.Register(nameof(OffSetStringVisual), typeof(DataVisualType), typeof(HexEditor),
-                new FrameworkPropertyMetadata(DataVisualType.Hexadecimal, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(DataVisualType.Hexadecimal, (d, e) =>
                 {
                     if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -730,7 +730,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty OffSetDataStringStateProperty =
            DependencyProperty.Register(nameof(DataStringState), typeof(DataVisualState), typeof(HexEditor),
-               new FrameworkPropertyMetadata(DataVisualState.Default, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+               new FrameworkPropertyMetadata(DataVisualState.Default, (d, e) =>
                {
                    if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -751,7 +751,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty OffSetByteOrderProperty =
            DependencyProperty.Register(nameof(ByteOrder), typeof(ByteOrderType), typeof(HexEditor),
-               new FrameworkPropertyMetadata(ByteOrderType.LoHi, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+               new FrameworkPropertyMetadata(ByteOrderType.LoHi, (d, e) =>
                {
                    if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -787,7 +787,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty OffSetByteSizeProperty =
            DependencyProperty.Register(nameof(ByteSize), typeof(ByteSizeType), typeof(HexEditor),
-               new FrameworkPropertyMetadata(ByteSizeType.Bit8, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+               new FrameworkPropertyMetadata(ByteSizeType.Bit8, (d, e) =>
                {
                    if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -815,7 +815,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty DataStringVisualProperty =
             DependencyProperty.Register(nameof(DataStringVisual), typeof(DataVisualType), typeof(HexEditor),
-                new FrameworkPropertyMetadata(DataVisualType.Hexadecimal, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(DataVisualType.Hexadecimal, (d, e) =>
                 {
                     if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -844,12 +844,12 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty TypeOfCharacterTableProperty =
             DependencyProperty.Register(nameof(TypeOfCharacterTable), typeof(CharacterTableType), typeof(HexEditor),
-                new FrameworkPropertyMetadata(CharacterTableType.Ascii, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(CharacterTableType.Ascii, (d, _) =>
                 {
                     if (d is not HexEditor ctrl) return;
 
                     ctrl.RefreshView(true);
-                    ctrl.TypeOfCharacterTableChanged?.Invoke(ctrl, new EventArgs());
+                    ctrl.TypeOfCharacterTableChanged?.Invoke(ctrl, EventArgs.Empty);
                 }));
 
         /// <summary>
@@ -863,7 +863,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty TblShowMteProperty =
             DependencyProperty.Register(nameof(TblShowMte), typeof(bool), typeof(HexEditor),
-                new FrameworkPropertyMetadata(true, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(true, (d, _) =>
                 {
                     if (d is HexEditor ctrl)
                         ctrl.RefreshView();
@@ -1004,7 +1004,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty ReadOnlyModeProperty =
             DependencyProperty.Register(nameof(ReadOnlyMode), typeof(bool), typeof(HexEditor),
-                new FrameworkPropertyMetadata(false, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(false, (d, e) =>
                 {
                     if (d is not HexEditor ctrl) return;
                     if (!CheckIsOpen(ctrl._provider)) return;
@@ -1029,7 +1029,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// Stream or file are modified when IsModified are set to true.
         /// </summary>
-        public bool IsModified { get; internal set; } = false;
+        public bool IsModified { get; internal set; }
 
         private void Control_ByteModified(object sender, ByteEventArgs e)
         {
@@ -1329,7 +1329,7 @@ namespace WpfHexaEditor
         public static readonly DependencyProperty SelectionStartProperty =
             DependencyProperty.Register(nameof(SelectionStart), typeof(long), typeof(HexEditor),
                 new FrameworkPropertyMetadata(-1L, 
-                    (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                    (d, e) =>
                     {
                         if (d is not HexEditor ctrl) return;
                         if (e.NewValue == e.OldValue) return;
@@ -1345,9 +1345,9 @@ namespace WpfHexaEditor
                         ctrl.UpdateHeader(true);
                         ctrl.SetScrollMarker(0, ScrollMarker.SelectionStart);
 
-                        ctrl.SelectionStartChanged?.Invoke(ctrl, new EventArgs());
-                        ctrl.SelectionLengthChanged?.Invoke(ctrl, new EventArgs());
-                    }, (DependencyObject d, object baseValue) =>
+                        ctrl.SelectionStartChanged?.Invoke(ctrl, EventArgs.Empty);
+                        ctrl.SelectionLengthChanged?.Invoke(ctrl, EventArgs.Empty);
+                    }, (d, baseValue) =>
                     {
                         if (d is not HexEditor ctrl) return -1L;
                         if (!CheckIsOpen(ctrl._provider)) return -1L;
@@ -1369,16 +1369,16 @@ namespace WpfHexaEditor
         public static readonly DependencyProperty SelectionStopProperty =
             DependencyProperty.Register(nameof(SelectionStop), typeof(long), typeof(HexEditor),
                 new FrameworkPropertyMetadata(-1L, 
-                    (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                    (d, e) =>
                     {
                         if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
                         ctrl.UpdateSelection();
                         ctrl.UpdateSelectionLine();
 
-                        ctrl.SelectionStopChanged?.Invoke(ctrl, new EventArgs());
-                        ctrl.SelectionLengthChanged?.Invoke(ctrl, new EventArgs());
-                    }, (DependencyObject d, object baseValue) =>
+                        ctrl.SelectionStopChanged?.Invoke(ctrl, EventArgs.Empty);
+                        ctrl.SelectionLengthChanged?.Invoke(ctrl, EventArgs.Empty);
+                    }, (d, baseValue) =>
                     {
                         if (d is not HexEditor ctrl) return baseValue;
 
@@ -1674,6 +1674,7 @@ namespace WpfHexaEditor
         /// Copy selection to a stream
         /// </summary>
         /// <param name="output">Output stream is not closed after copy</param>
+        /// <param name="copyChange">Copy change or not</param>
         public void CopyToStream(Stream output, bool copyChange) =>
             CopyToStream(output, SelectionStart, SelectionStop, copyChange);
 
@@ -1681,6 +1682,9 @@ namespace WpfHexaEditor
         /// Copy selection to a stream
         /// </summary>
         /// <param name="output">Output stream is not closed after copy</param>
+        /// <param name="selectionStart"></param>
+        /// <param name="selectionStop"></param>
+        /// <param name="copyChange"></param>
         public void CopyToStream(Stream output, long selectionStart, long selectionStop, bool copyChange)
         {
             if (!CanCopy) return;
@@ -2010,7 +2014,7 @@ namespace WpfHexaEditor
 
             SetFocusAt(position);
 
-            Undone?.Invoke(this, new EventArgs());
+            Undone?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -2036,13 +2040,14 @@ namespace WpfHexaEditor
 
             SetFocusAt(position);
 
-            Redone?.Invoke(this, new EventArgs());
+            Redone?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Clear the scroll marker when undone 
         /// </summary>
         /// <param name="sender">List of long representing position in file are undone</param>
+        /// <param name="e"></param>
         private void Provider_Undone(object sender, EventArgs e)
         {
             switch (sender)
@@ -2102,7 +2107,7 @@ namespace WpfHexaEditor
             CloseProvider();
             FileName = filename;
 
-            ChangesSubmited?.Invoke(this, new EventArgs());
+            ChangesSubmited?.Invoke(this, EventArgs.Empty);
         }
 
         private void ProviderStream_ChangesSubmited(object sender, EventArgs e)
@@ -2112,7 +2117,7 @@ namespace WpfHexaEditor
 
             RefreshView(true);
 
-            ChangesSubmited?.Invoke(this, new EventArgs());
+            ChangesSubmited?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -2227,7 +2232,7 @@ namespace WpfHexaEditor
 
             //Preload byte to MaxScreenVisibleLine
             if (PreloadByteInEditorMode == PreloadByteInEditor.MaxScreenVisibleLineAtDataLoad)
-                BuildDataLines(MaxScreenVisibleLine, false);
+                BuildDataLines(MaxScreenVisibleLine);
 
             _provider = new ByteProvider(filename, ReadOnlyMode, CanInsertAnywhere);
 
@@ -2279,7 +2284,7 @@ namespace WpfHexaEditor
 
             //Preload byte to MaxScreenVisibleLine
             if (PreloadByteInEditorMode == PreloadByteInEditor.MaxScreenVisibleLineAtDataLoad)
-                BuildDataLines(MaxScreenVisibleLine, false);
+                BuildDataLines(MaxScreenVisibleLine);
 
             _provider = new ByteProvider(stream, CanInsertAnywhere);
 
@@ -2325,7 +2330,7 @@ namespace WpfHexaEditor
             CheckProviderIsOnProgress();
 
             //Launch event
-            LongProcessProgressCompleted?.Invoke(this, new EventArgs());
+            LongProcessProgressCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         private void Provider_LongProcessProgressStarted(object sender, EventArgs e)
@@ -2333,7 +2338,7 @@ namespace WpfHexaEditor
             CheckProviderIsOnProgress();
 
             //Launch event
-            LongProcessProgressStarted?.Invoke(this, new EventArgs());
+            LongProcessProgressStarted?.Invoke(this, EventArgs.Empty);
         }
 
         private void Provider_LongProcessProgressChanged(object sender, EventArgs e)
@@ -2345,7 +2350,7 @@ namespace WpfHexaEditor
             Application.Current.DoEvents();
 
             //Launch event
-            LongProcessProgressChanged?.Invoke(this, new EventArgs());
+            LongProcessProgressChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -2357,13 +2362,13 @@ namespace WpfHexaEditor
         /// Invoke ReplaceByteCompleted event
         /// </summary>
         private void Provider_ReplaceByteCompleted(object sender, EventArgs e) =>
-            ReplaceByteCompleted?.Invoke(this, new EventArgs());
+            ReplaceByteCompleted?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Invoke FillWithByteCompleted event
         /// </summary>
         private void Provider_FillWithByteCompleted(object sender, EventArgs e) =>
-            FillWithByteCompleted?.Invoke(this, new EventArgs());
+            FillWithByteCompleted?.Invoke(this, EventArgs.Empty);
 
         private void CancelLongProcessButton_Click(object sender, RoutedEventArgs e)
         {
@@ -2557,7 +2562,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty BytePerLineProperty =
             DependencyProperty.Register(nameof(BytePerLine), typeof(int), typeof(HexEditor),
-                new FrameworkPropertyMetadata(16, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(16, (d, e) =>
                 {
                     if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -2579,7 +2584,7 @@ namespace WpfHexaEditor
                         c.SelectionStart = startPos;
                         c.SelectionStop = stopPos;
                     });
-                }, (DependencyObject d, object baseValue) => (int)baseValue < 1 ? 1 : ((int)baseValue > 64 ? 64 : baseValue)));
+                }, (_, baseValue) => (int)baseValue < 1 ? 1 : ((int)baseValue > 64 ? 64 : baseValue)));
 
         #endregion
 
@@ -2596,7 +2601,7 @@ namespace WpfHexaEditor
 
         public static readonly DependencyProperty StringByteWidthProperty =
             DependencyProperty.Register(nameof(StringByteWidth), typeof(double), typeof(HexEditor),
-                new FrameworkPropertyMetadata(10d, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+                new FrameworkPropertyMetadata(10d, (d, e) =>
                 {
                     if (d is not HexEditor ctrl || e.NewValue == e.OldValue) return;
 
@@ -2618,7 +2623,7 @@ namespace WpfHexaEditor
                         c.SelectionStart = startPos;
                         c.SelectionStop = stopPos;
                     });
-                }, (DependencyObject d, object baseValue) => (double)baseValue < 1 ? 1 : ((double)baseValue > 64 ? 64 : baseValue)));
+                }, (_, baseValue) => (double)baseValue < 1 ? 1 : ((double)baseValue > 64 ? 64 : baseValue)));
 
         #endregion
 
@@ -2916,7 +2921,7 @@ namespace WpfHexaEditor
                 _provider.Position = startPosition;
                 var readSize = 0;
                 if (HideByteDeleted || CanInsertAnywhere)
-                    for (int i = 0; i < _viewBuffer.Length; i++)
+                    for (var i = 0; i < _viewBuffer.Length; i++)
                     {
                         //BYTE INSERT ANYWHERE IS IN DEVELOPMENT!! ///////////
                         //DOES NOT WORK CLEANLY! BE PATIENT
@@ -2924,9 +2929,9 @@ namespace WpfHexaEditor
                         {
                             if (_provider.Eof) continue;
 
-                            var (success, val) = _provider.CheckIfIsByteModified(_provider.Position, ByteAction.Added);
+                            var (_, val) = _provider.CheckIfIsByteModified(_provider.Position, ByteAction.Added);
 
-                            _viewBuffer[readSize] = val.Byte.Value;
+                            if (val.Byte != null) _viewBuffer[readSize] = val.Byte.Value;
                             _viewBufferBytePosition[readSize] = val.BytePositionInStream;
                             _provider.Position++;
                             readSize++;
@@ -2983,8 +2988,8 @@ namespace WpfHexaEditor
                         c.Byte = ByteSize switch
                         {
                             ByteSizeType.Bit8 => new Byte_8bit(_viewBuffer[index]),
-                            ByteSizeType.Bit16 => new Byte_16bit(new byte[] { _viewBuffer[index], _viewBuffer[index + 1] }),
-                            ByteSizeType.Bit32 => new Byte_32bit(new byte[] { _viewBuffer[index], _viewBuffer[index + 1], _viewBuffer[index + 2], _viewBuffer[index + 3] }),
+                            ByteSizeType.Bit16 => new Byte_16bit(new[] { _viewBuffer[index], _viewBuffer[index + 1] }),
+                            ByteSizeType.Bit32 => new Byte_32bit(new[] { _viewBuffer[index], _viewBuffer[index + 1], _viewBuffer[index + 2], _viewBuffer[index + 3] }),
                             _ => throw new NotImplementedException()
                         };
                         c.BytePositionInStream = !HideByteDeleted ? nextPos : _viewBufferBytePosition[index];
@@ -3005,7 +3010,7 @@ namespace WpfHexaEditor
 
                 #region StringByte / Barchart panel refresh
 
-                var skipNextIsMTE = false;
+                var skipNextIsMte = false;
                 TraverseStringBytes(c =>
                 {
                     c.Action = ByteAction.Nothing;
@@ -3023,7 +3028,7 @@ namespace WpfHexaEditor
 
                     if (index < readSize)
                     {
-                        if (!skipNextIsMTE)
+                        if (!skipNextIsMte)
                         {
                             c.BytePositionInStream = !HideByteDeleted ? nextPos : _viewBufferBytePosition[index];
 
@@ -3041,14 +3046,14 @@ namespace WpfHexaEditor
                             //Bar chart value
                             c.PercentValue = _viewBuffer[index] * 100 / 256;
 
-                            skipNextIsMTE = c.IsMTE;
+                            skipNextIsMte = c.IsMTE;
 
                             if (AllowVisualByteAddress && nextPos > VisualByteAdressStop)
                                 c.Clear();
                         }
                         else
                         {
-                            skipNextIsMTE = false;
+                            skipNextIsMte = false;
                             c.Clear();
                         }
                     }
@@ -3095,11 +3100,11 @@ namespace WpfHexaEditor
 
                     ctrl.InternalChange = false;
                 }
-            }, ref exit, false);
+            }, ref exit);
 
             TraverseHexBytes(ctrl =>
             {
-                for (int i = 0; i < ByteSizeRatio; i++)
+                for (var i = 0; i < ByteSizeRatio; i++)
                 {
                     if (modifiedBytesDictionary.TryGetValue(ctrl.BytePositionInStream + i, out var byteModified))
                     {
@@ -3117,7 +3122,7 @@ namespace WpfHexaEditor
                     }
                 }
 
-            }, ref exit, false);
+            }, ref exit);
 
             IsModified = _provider.UndoCount > 0;
         }
@@ -3244,7 +3249,7 @@ namespace WpfHexaEditor
 
             if (!CheckIsOpen(_provider)) return;
 
-            long firstByteInLine = FirstVisibleBytePosition;
+            var firstByteInLine = FirstVisibleBytePosition;
             long actualPosition = 0;
 
             for (var i = 0; i < maxVisibleLine; i++)
@@ -3334,7 +3339,7 @@ namespace WpfHexaEditor
             get
             {
                 //Compute the cibled position for the first visible byte position
-                long cibledPosition = AllowVisualByteAddress
+                var cibledPosition = AllowVisualByteAddress
                     ? ((long)VerticalScrollBar.Value) * (BytePerLine + ByteShiftLeft + VisualByteAdressStart) * ByteSizeRatio
                     : ((long)VerticalScrollBar.Value) * (BytePerLine + ByteShiftLeft) * ByteSizeRatio;
 
@@ -3399,7 +3404,10 @@ namespace WpfHexaEditor
                 {
                     Focus();
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
         }
 
         /// <summary>
@@ -3641,6 +3649,13 @@ namespace WpfHexaEditor
         /// Replace the first byte array define by findData in byteprovider at start position. 
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
+        public long ReplaceFirst(byte[] findData, byte[] replaceData, long startPosition = 0, bool hightlight = false) => 
+            ReplaceFirst(findData, replaceData, true, startPosition, hightlight);
+
+        /// <summary>
+        /// Replace the first byte array define by findData in byteprovider at start position. 
+        /// </summary>
+        /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceFirst(byte[] findData, byte[] replaceData, bool truckLength = true, long startPosition = 0, bool hightlight = false)
         {
             if (findData == null || replaceData == null || !CheckIsOpen(_provider) || ReadOnlyMode) return -1;
@@ -3649,7 +3664,7 @@ namespace WpfHexaEditor
 
             if (position > -1)
             {
-                byte[] finalReplaceData = truckLength
+                var finalReplaceData = truckLength
                     ? replaceData.Take(findData.Length).ToArray()
                     : replaceData;
 
@@ -3662,8 +3677,8 @@ namespace WpfHexaEditor
 
                 return position;
             }
-            else
-                return -1;
+
+            return -1;
         }
 
         /// <summary>
@@ -3680,7 +3695,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceFirst(byte[] findData, byte[] replaceData, bool truckLength = true) =>
-            ReplaceFirst(findData, replaceData, truckLength, SelectionStart, false);
+            ReplaceFirst(findData, replaceData, truckLength, SelectionStart);
 
         /// <summary>
         /// Replace the first byte array define by findData in byteprovider at SelectionStart. 
@@ -3690,7 +3705,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceFirst(byte[] findData, byte[] replaceData) =>
-            ReplaceFirst(findData, replaceData, true, SelectionStart, false);
+            ReplaceFirst(findData, replaceData, true, SelectionStart);
 
         /// <summary>
         /// Replace the first string define by find in byteprovider at SelectionStart. Start the search at SelectionStart. 
@@ -3706,7 +3721,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>        
         public long ReplaceFirst(string find, string replace, bool truckLength = true) =>
-            ReplaceFirst(StringToByte(find), StringToByte(replace), truckLength, SelectionStart, false);
+            ReplaceFirst(StringToByte(find), StringToByte(replace), truckLength, SelectionStart);
 
         /// <summary>
         /// Replace the first string define by find in byteprovider at start position. 
@@ -3716,7 +3731,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>        
         public long ReplaceFirst(string find, string replace) =>
-            ReplaceFirst(StringToByte(find), StringToByte(replace), true, SelectionStart, false);
+            ReplaceFirst(StringToByte(find), StringToByte(replace), true, SelectionStart);
 
         /// <summary>
         /// Replace the next byte array define by findData in byteprovider at SelectionStart. 
@@ -3732,7 +3747,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceNext(byte[] findData, byte[] replaceData) =>
-            ReplaceFirst(findData, replaceData, true, SelectionStart + 1, false);
+            ReplaceFirst(findData, replaceData, true, SelectionStart + 1);
 
         /// <summary>
         /// Replace the next byte array define by findData in byteprovider at SelectionStart. 
@@ -3740,7 +3755,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceNext(byte[] findData, byte[] replaceData, bool truckLength = true) =>
-            ReplaceFirst(findData, replaceData, truckLength, SelectionStart + 1, false);
+            ReplaceFirst(findData, replaceData, truckLength, SelectionStart + 1);
 
         /// <summary>
         /// Replace the next string define by find in byteprovider at SelectionStart. 
@@ -3756,7 +3771,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceNext(string find, string replace) =>
-            ReplaceFirst(StringToByte(find), StringToByte(replace), true, SelectionStart + 1, false);
+            ReplaceFirst(StringToByte(find), StringToByte(replace), true, SelectionStart + 1);
 
         /// <summary>
         /// Replace the next string define by find in byteprovider at SelectionStart. 
@@ -3764,7 +3779,7 @@ namespace WpfHexaEditor
         /// </summary>
         /// <returns>Return the position of replace. Return -1 on error/no replace</returns>
         public long ReplaceNext(string find, string replace, bool truckLength = true) =>
-            ReplaceFirst(StringToByte(find), StringToByte(replace), truckLength, SelectionStart + 1, false);
+            ReplaceFirst(StringToByte(find), StringToByte(replace), truckLength, SelectionStart + 1);
 
         /// <summary>
         /// Replace the all byte array define by findData in byteprovider. 
@@ -3774,27 +3789,25 @@ namespace WpfHexaEditor
         {
             if (findData == null || replaceData == null || ReadOnlyMode || !CheckIsOpen(_provider)) return null;
 
-            var positions = FindAll(findData, hightlight);
+            var positions = FindAll(findData, hightlight).ToList();
 
-            if (positions.Any())
+            if (!positions.Any()) return null;
+
+            var finalReplaceData = truckLength
+                ? replaceData.Take(findData.Length).ToArray()
+                : replaceData;
+
+            foreach (var position in positions)
             {
-                byte[] finalReplaceData = truckLength
-                    ? replaceData.Take(findData.Length).ToArray()
-                    : replaceData;
-
-                foreach (var position in positions)
-                {
-                    _provider.Paste(position, finalReplaceData, false);
-                    SetScrollMarker(position, ScrollMarker.ByteModified);
-                }
-
-                UnSelectAll();
-                RefreshView();
-
-                return positions;
+                _provider.Paste(position, finalReplaceData, false);
+                SetScrollMarker(position, ScrollMarker.ByteModified);
             }
-            else
-                return null;
+
+            UnSelectAll();
+            RefreshView();
+
+            return positions;
+
         }
 
         /// <summary>
@@ -3879,7 +3892,10 @@ namespace WpfHexaEditor
             {
                 ByteCountPanel.Visibility = Visibility.Visible;
 
-                var val = _provider.GetByte(SelectionStart).singleByte.Value;
+                var singleByte = _provider.GetByte(SelectionStart).singleByte;
+                if (singleByte == null) return;
+
+                var val = singleByte.Value;
                 CountOfByteSumLabel.Content = _bytecount[val];
                 CountOfByteLabel.Content = $"0x{LongToHex(val)}";
             }
@@ -4094,6 +4110,7 @@ namespace WpfHexaEditor
         /// Clear ScrollMarker
         /// </summary>
         /// <param name="marker">Type of marker to clear</param>
+        /// <param name="position"></param>
         public void ClearScrollMarker(ScrollMarker marker, long position) =>
             TraverseScrollMarker(sm =>
             {
@@ -4182,7 +4199,7 @@ namespace WpfHexaEditor
         private void CopyToClipBoardCMenu_Click(object sender, RoutedEventArgs e)
         {
             //Copy to clipboard
-            switch ((sender as MenuItem).Name)
+            switch ((sender as MenuItem)?.Name)
             {
                 case nameof(CopyHexaCMenu):
                     CopyToClipboard(CopyPasteMode.HexaString);
@@ -4274,7 +4291,7 @@ namespace WpfHexaEditor
         /// <param name="readToMove">whether the veticalbar value should be changed</param>
         /// <param name="distance">the value that vertical value move down(negative for up)</param>
         private void VerticalMoveByTime(Func<bool> readToMove, Func<double> distance) =>
-            ThreadPool.QueueUserWorkItem(cb =>
+            ThreadPool.QueueUserWorkItem(_ =>
             {
                 while (readToMove())
                 {
@@ -4433,7 +4450,7 @@ namespace WpfHexaEditor
 
             for (var i = startPosition; i < startPosition + length; i++)
                 //if (!_markedPositionList.ContainsValue(i))
-                    _markedPositionList.Add(i, i);
+                _markedPositionList.Add(i, i);
 
             if (updateVisual) UpdateHighLight();
         }
@@ -4764,7 +4781,7 @@ namespace WpfHexaEditor
                 {
                     #region Insert at mouve over position
                     var position = SelectionStart;
-                    bool rtn = false;
+                    var rtn = false;
                     TraverseHexAndStringBytes(ctrl =>
                     {
                         Application.Current.DoEvents();
@@ -4795,7 +4812,9 @@ namespace WpfHexaEditor
                 var filename = fileDrop as string[];
 
                 if (!CheckIsOpen(_provider))
-                    FileName = filename[0];
+                {
+                    if (filename != null) FileName = filename[0];
+                }
                 else
                 {
                     if (FileDroppingConfirmation)
@@ -4805,8 +4824,7 @@ namespace WpfHexaEditor
                                 ApplicationName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                             FileName = filename[0];
                     }
-                    else
-                        FileName = filename[0];
+                    else if (filename != null) FileName = filename[0];
                 }
             }
 
@@ -4884,42 +4902,44 @@ namespace WpfHexaEditor
 
             #region Create ByteModifieds tag
 
-            var bmRootBM = doc.Element("WpfHexEditor").Element("ByteModifieds");
+            var bmRootBm = doc.Element("WpfHexEditor")?.Element("ByteModifieds");
 
             foreach (var bm in _provider.GetByteModifieds(ByteAction.All))
-                bmRootBM.Add(new XElement("ByteModified",
+                bmRootBm?.Add(new XElement("ByteModified",
                     new XAttribute("Action", bm.Value.Action),
                     new XAttribute("HexByte",
                         bm.Value.Byte.HasValue
                             ? new string(ByteToHexCharArray((byte)bm.Value.Byte))
                             : string.Empty),
                     new XAttribute("Position", bm.Value.BytePositionInStream)));
+
             #endregion
 
             #region Create hightlight tag
 
-            var bmRootHL = doc.Element("WpfHexEditor").Element("HighLights");
+            var bmRootHl = doc.Element("WpfHexEditor")?.Element("HighLights");
 
             foreach (var bm in _markedPositionList)
-                bmRootHL.Add(new XElement("HighLight", new XAttribute("Position", bm.Value)));
+                bmRootHl?.Add(new XElement("HighLight", new XAttribute("Position", bm.Value)));
             #endregion
 
             #region Create bookmarks tag
 
-            var bmRootBMs = doc.Element("WpfHexEditor").Element("BookMarks");
+            var bmRootBMs = doc.Element("WpfHexEditor")?.Element("BookMarks");
 
             foreach (var bm in BookMarks)
-                bmRootBMs.Add(new XElement("BookMark",
+                bmRootBMs?.Add(new XElement("BookMark",
                     new XAttribute("Position", bm.BytePositionInStream),
                     new XAttribute("Description", bm.Description)));
+
             #endregion
 
             #region Create TBL tag
 
             if (_tblCharacterTable is not null)
                 doc.Element("WpfHexEditor")
-                   .Element("TBL")
-                   .Add(new XElement("TBLData",
+                    ?.Element("TBL")
+                    ?.Add(new XElement("TBLData",
                             new XAttribute("Filename", _tblCharacterTable.FileName),
                             new XAttribute("Data", _tblCharacterTable.ToString())));
             #endregion
@@ -4940,97 +4960,107 @@ namespace WpfHexaEditor
             ClearScrollMarker(ScrollMarker.Bookmark);
 
             #region Load ByteModifieds
-            var bmList = doc.Element("WpfHexEditor").Element("ByteModifieds").Elements().Select(i => i);
+            var bmList = doc.Element("WpfHexEditor")?.Element("ByteModifieds")?.Elements().Select(i => i);
 
-            foreach (var element in bmList)
-            {
-                var bm = new ByteModified();
+            if (bmList != null)
+                foreach (var element in bmList)
+                {
+                    var bm = new ByteModified();
 
-                #region Set attribute of bytemodified...
-                foreach (var at in element.Attributes())
-                    switch (at.Name.ToString())
+                    #region Set attribute of bytemodified...
+
+                    foreach (var at in element.Attributes())
+                        switch (at.Name.ToString())
+                        {
+                            case "Action":
+
+                                #region Set action
+
+                                bm.Action = at.Value switch
+                                {
+                                    "Modified" => ByteAction.Modified,
+                                    "Deleted" => ByteAction.Deleted,
+                                    "Added" => ByteAction.Added,
+                                    _ => throw new NotImplementedException()
+                                };
+
+                                #endregion
+
+                                break;
+                            case "HexByte":
+                                bm.Byte = IsHexaByteStringValue(at.Value).value[0];
+                                break;
+                            case "Position":
+                                bm.BytePositionInStream = long.Parse(at.Value);
+                                break;
+                        }
+
+                    #endregion
+
+                    #region Add bytemodified to dictionary
+
+                    switch (bm.Action)
                     {
-                        case "Action":
-
-                            #region Set action
-
-                            bm.Action = at.Value switch
-                            {
-                                "Modified" => ByteAction.Modified,
-                                "Deleted" => ByteAction.Deleted,
-                                "Added" => ByteAction.Added,
-                                _ => throw new NotImplementedException()
-                            };
-
-                            #endregion
-
+                        case ByteAction.Deleted:
+                            _provider.AddByteDeleted(bm.BytePositionInStream, 1);
+                            SetScrollMarker(bm.BytePositionInStream, ScrollMarker.ByteDeleted);
                             break;
-                        case "HexByte":
-                            bm.Byte = IsHexaByteStringValue(at.Value).value[0];
+                        case ByteAction.Modified:
+                            _provider.AddByteModified(bm.Byte, bm.BytePositionInStream);
+                            SetScrollMarker(bm.BytePositionInStream, ScrollMarker.ByteModified);
                             break;
-                        case "Position":
-                            bm.BytePositionInStream = long.Parse(at.Value);
+                        case ByteAction.Added:
+                            //TODO: Add action when byte added will be supported
                             break;
                     }
-                #endregion
 
-                #region Add bytemodified to dictionary
-                switch (bm.Action)
-                {
-                    case ByteAction.Deleted:
-                        _provider.AddByteDeleted(bm.BytePositionInStream, 1);
-                        SetScrollMarker(bm.BytePositionInStream, ScrollMarker.ByteDeleted);
-                        break;
-                    case ByteAction.Modified:
-                        _provider.AddByteModified(bm.Byte, bm.BytePositionInStream);
-                        SetScrollMarker(bm.BytePositionInStream, ScrollMarker.ByteModified);
-                        break;
-                    case ByteAction.Added:
-                        //TODO: Add action when byte added will be supported
-                        break;
+                    #endregion
                 }
-                #endregion
 
-            }
             #endregion
 
             #region Load highlight            
             UnHighLightAll();
 
-            var hlList = doc.Element("WpfHexEditor").Element("HighLights").Elements().Select(i => i);
+            var hlList = doc.Element("WpfHexEditor")?.Element("HighLights")?.Elements().Select(i => i);
 
-            foreach (var element in hlList)
-                AddHighLight(long.TryParse(element.Attribute("Position").Value, out long pos)
-                    ? pos
-                    : -1, 1);
+            if (hlList != null)
+                foreach (var element in hlList)
+                    AddHighLight(long.TryParse(element.Attribute("Position")?.Value, out var pos)
+                        ? pos
+                        : -1, 1);
 
             #endregion
 
             #region Load bookmarks
-            var bmsList = doc.Element("WpfHexEditor").Element("BookMarks").Elements().Select(i => i);
+            var bmsList = doc.Element("WpfHexEditor")?.Element("BookMarks")?.Elements().Select(i => i);
 
-            foreach (var element in bmsList)
-            {
-                var bm = new BookMark
+            if (bmsList != null)
+                foreach (var element in bmsList)
                 {
-                    Marker = ScrollMarker.Bookmark
-                };
-
-                #region Set attribute of bookmark...
-                foreach (var at in element.Attributes())
-                    switch (at.Name.ToString())
+                    var bm = new BookMark
                     {
-                        case "Description":
-                            bm.Description = at.Value;
-                            break;
-                        case "Position":
-                            bm.BytePositionInStream = long.Parse(at.Value);
-                            break;
-                    }
-                #endregion
+                        Marker = ScrollMarker.Bookmark
+                    };
 
-                SetScrollMarker(bm);
-            }
+                    #region Set attribute of bookmark...
+
+                    foreach (var at in element.Attributes())
+                        switch (at.Name.ToString())
+                        {
+                            case "Description":
+                                bm.Description = at.Value;
+                                break;
+                            case "Position":
+                                bm.BytePositionInStream = long.Parse(at.Value);
+                                break;
+                        }
+
+                    #endregion
+
+                    SetScrollMarker(bm);
+                }
+
             #endregion
 
             #region Load TBL            
@@ -5054,16 +5084,16 @@ namespace WpfHexaEditor
 
             #region Update the visual
             //Update position
-            SetPosition(long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(FirstVisibleBytePosition)).Value, out long position)
+            SetPosition(long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(FirstVisibleBytePosition)).Value, out var position)
                 ? position
                 : 0);
 
             //Update selection
-            SelectionStart = long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(SelectionStart)).Value, out long selectionStart)
+            SelectionStart = long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(SelectionStart)).Value, out var selectionStart)
                 ? selectionStart
                 : 0;
 
-            SelectionStop = long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(SelectionStop)).Value, out long selectionStop)
+            SelectionStop = long.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(SelectionStop)).Value, out var selectionStop)
                 ? selectionStop
                 : 0;
 
@@ -5073,7 +5103,7 @@ namespace WpfHexaEditor
 
             #region Set the readonly mode
 
-            SetCurrentValue(ReadOnlyModeProperty, bool.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(ReadOnlyMode)).Value, out bool readOnlyMode) && readOnlyMode);
+            SetCurrentValue(ReadOnlyModeProperty, bool.TryParse(doc.Element("WpfHexEditor").Attribute(nameof(ReadOnlyMode)).Value, out var readOnlyMode) && readOnlyMode);
 
             #endregion
         }
@@ -5264,6 +5294,7 @@ namespace WpfHexaEditor
         /// Number of line to preload in editor
         /// </summary>
         /// <param name="preloadByte">Preload byte precalculated</param>
+        /// <param name="refreshView"></param>
         public void ForcePreloadByteInEditor(PreloadByteInEditor preloadByte, bool refreshView = true)
         {
             //Set the number of row to preload in the editor at the control creation. 
@@ -5288,6 +5319,7 @@ namespace WpfHexaEditor
         /// Number of line to preload in editor
         /// </summary>
         /// <param name="nbLine">Number of line to preload in control</param>
+        /// <param name="refreshView"></param>
         public void ForcePreloadByteInEditor(int nbLine, bool refreshView = true)
         {
             if (nbLine <= 0) return;
@@ -5367,8 +5399,11 @@ namespace WpfHexaEditor
             if (!AllowZoom) return;
 
             if (_scaler == null) InitialiseZoom();
-            _scaler.ScaleY = ZoomScale;
-            _scaler.ScaleX = ZoomScale;
+            if (_scaler != null)
+            {
+                _scaler.ScaleY = ZoomScale;
+                _scaler.ScaleX = ZoomScale;
+            }
 
             //TODO: Update caret size...
 
@@ -5469,7 +5504,7 @@ namespace WpfHexaEditor
             SetFocusAtSelectionStart();
 
             //Launch deleted event
-            BytesDeleted?.Invoke(this, new EventArgs());
+            BytesDeleted?.Invoke(this, EventArgs.Empty);
 
             //Prevent to move down the scrollbar
             _setFocusTest = false;
@@ -5573,7 +5608,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// Add of remove CustomBackgroundBlock in this list to use in hexeditor
         /// </summary>
-        public List<CustomBackgroundBlock> CustomBackgroundBlockItems { get; set; } = new List<CustomBackgroundBlock>();
+        public List<CustomBackgroundBlock> CustomBackgroundBlockItems { get; set; } = new();
 
         /// <summary>
         /// Get the first CustomBackgroundBlock finded in list.
@@ -5683,7 +5718,7 @@ namespace WpfHexaEditor
             if (!CheckIsOpen(_provider)) return;
             if (!CanInsertAnywhere) return;
 
-            for (int i = 0; i <= length; i++)
+            for (var i = 0; i <= length; i++)
                 _provider.AddByteAdded(@byte, bytePositionInStream + i);
 
             RefreshView();
@@ -5697,7 +5732,7 @@ namespace WpfHexaEditor
             if (!CheckIsOpen(_provider)) return;
             if (!CanInsertAnywhere) return;
 
-            foreach (byte @byte in bytes)
+            foreach (var @byte in bytes)
                 _provider.AddByteAdded(@byte, bytePositionInStream++);
 
             RefreshView();

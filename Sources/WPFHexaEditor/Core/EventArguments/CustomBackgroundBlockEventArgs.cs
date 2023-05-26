@@ -19,6 +19,6 @@ namespace WpfHexaEditor.Core.EventArguments
         /// <summary>
         /// CustomBackgroundBlock to pass in arguments
         /// /// </summary>
-        public CustomBackgroundBlock CustomBlock = null;
+        public CustomBackgroundBlock CustomBlock;
     }
 }

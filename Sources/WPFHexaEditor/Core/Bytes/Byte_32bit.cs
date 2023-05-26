@@ -37,10 +37,10 @@ namespace WpfHexaEditor.Core.Bytes
 
         public string GetText(DataVisualType type, DataVisualState state, ByteOrderType order)
         {
-            string text = "";
-            byte[] value = new byte[4];
-            bool sign_positive = true;
-            string prefix = "";
+            var text = "";
+            var value = new byte[4];
+            var sign_positive = true;
+            var prefix = "";
 
             var byteValue = (order == ByteOrderType.HiLo)
                 ? Byte.ToArray().Reverse().ToArray()
@@ -138,8 +138,8 @@ namespace WpfHexaEditor.Core.Bytes
 
         public (ByteAction, bool) Update(DataVisualType type, Key _key, ByteOrderType byteOrder, ref KeyDownLabel _keyDownLabel)
         {
-            ByteAction Action = ByteAction.Nothing;
-            bool isLastChar = false;
+            var Action = ByteAction.Nothing;
+            var isLastChar = false;
 
             switch (type)
             {
@@ -237,12 +237,12 @@ namespace WpfHexaEditor.Core.Bytes
                         : 0.ToString();
 
                     //Update byte
-                    Char[] byteValueCharArray_dec =
+                    var byteValueCharArray_dec =
                         (byteOrder == ByteOrderType.HiLo)
                         ? BitConverter.ToUInt32(Byte.ToArray(), 0).ToString("d10").ToCharArray()
                         : BitConverter.ToUInt32(Enumerable.Reverse(Byte.ToArray()).ToArray(), 0).ToString("d10").ToCharArray();
 
-                    List<byte> _newByte = new List<byte>();
+                    var _newByte = new List<byte>();
                     uint result;
                     switch (_keyDownLabel)
                     {
@@ -342,7 +342,7 @@ namespace WpfHexaEditor.Core.Bytes
 
                     if (_newByte is not null && _newByte.Count == 4)
                     {
-                        for (int i = 0; i < 4; i++)
+                        for (var i = 0; i < 4; i++)
                         {
                             if (byteOrder == ByteOrderType.LoHi)
                             {
@@ -368,7 +368,7 @@ namespace WpfHexaEditor.Core.Bytes
                         : 0.ToString();
 
                     //Update byte
-                    Char[] byteValueCharArray_bin = (byteOrder == ByteOrderType.LoHi)
+                    var byteValueCharArray_bin = (byteOrder == ByteOrderType.LoHi)
                         ? (Convert.ToString(Byte[0], 2).PadLeft(8, '0')
                         + Convert.ToString(Byte[1], 2).PadLeft(8, '0')
                         + Convert.ToString(Byte[2], 2).PadLeft(8, '0')
@@ -617,7 +617,7 @@ namespace WpfHexaEditor.Core.Bytes
 
         public void ChangeByteValue(byte newValue, long position)
         {
-            int index = (int)position % 4;
+            var index = (int)position % 4;
 
             Byte[index] = newValue;
             del_ByteOnChange?.Invoke(Byte, index);

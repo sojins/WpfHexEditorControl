@@ -26,9 +26,9 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
         /// <summary>
         /// Used to catch internal change for cath potential infinite loop
         /// </summary>
-        private bool _internalChange = false;
-        List<ByteDifference> _differences = null;
-        List<BlockListItem> _blockListItem = new List<BlockListItem>();
+        private bool _internalChange;
+        List<ByteDifference> _differences;
+        List<BlockListItem> _blockListItem = new();
 
         public MainWindow() => InitializeComponent();
 
@@ -75,7 +75,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
                     var diffList = _differences.Where(d => d.BytePositionInStream >= itm.CustomBlock.StartOffset &&
                                                            d.BytePositionInStream <= itm.CustomBlock.StopOffset);
 
-                    foreach (ByteDifference byteDiff in diffList)
+                    foreach (var byteDiff in diffList)
                         c.ModifyByte(byteDiff.Destination, byteDiff.BytePositionInStream);
 
                     itm.PatchBlockButton.IsEnabled = false;
@@ -144,7 +144,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
 
             var nbViewItem = (int)BlockItemProgress.Value + (int)(FileDiffBlockList.ActualHeight / new BlockListItem().Height);
 
-            for (int i = (int)BlockItemProgress.Value; i < nbViewItem; i++)
+            for (var i = (int)BlockItemProgress.Value; i < nbViewItem; i++)
             {
                 if (i < _blockListItem.Count)
                     FileDiffBlockList.Children.Add(_blockListItem[i]);
@@ -167,9 +167,9 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
 
             //Load list of difference
             var cbb = new CustomBackgroundBlock();
-            int j = 0;
+            var j = 0;
 
-            foreach (ByteDifference byteDifference in _differences)
+            foreach (var byteDifference in _differences)
             {
                 //create or update custom background block
                 if (j == 0)
@@ -224,7 +224,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
             _internalChange = false;
 
             //Load list of byte difference
-            foreach (ByteDifference byteDifference in _differences
+            foreach (var byteDifference in _differences
                 .Where(c => c.BytePositionInStream >= blockitm.CustomBlock.StartOffset &&
                             c.BytePositionInStream <= blockitm.CustomBlock.StopOffset))
             {
@@ -248,7 +248,7 @@ namespace WpfHexEditor.Sample.BinaryFilesDifference
                 var diffList = _differences.Where(d => d.BytePositionInStream >= itm.CustomBlock.StartOffset &&
                                                        d.BytePositionInStream <= itm.CustomBlock.StopOffset);
 
-                foreach (ByteDifference byteDiff in diffList)
+                foreach (var byteDiff in diffList)
                     c.ModifyByte(byteDiff.Origine, byteDiff.BytePositionInStream);
 
                 c.ReadOnlyMode = true;

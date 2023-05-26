@@ -26,7 +26,7 @@ namespace WpfHexaEditor.Core.CharacterTable
         /// <summary>
         /// Represente the whole TBL file
         /// </summary>
-        private Dictionary<string, Dte> _dteList = new Dictionary<string, Dte>();
+        private Dictionary<string, Dte> _dteList = new();
         #endregion
 
         #region Constructors
@@ -343,7 +343,7 @@ namespace WpfHexaEditor.Core.CharacterTable
         /// <summary>
         /// Get of set bookmarks
         /// </summary>
-        public List<BookMark> BookMarks { get; set; } = new List<BookMark>();
+        public List<BookMark> BookMarks { get; set; } = new();
 
         public int TotalDte => _dteList.Count(l => l.Value.Type == DteType.DualTitleEncoding);
         public int TotalMte => _dteList.Count(l => l.Value.Type == DteType.MultipleTitleEncoding);

@@ -507,7 +507,7 @@ namespace WpfHexaEditor
                 if (!ReadOnlyMode)
                 {
                     e.Handled = true;
-                    ByteDeleted?.Invoke(this, new EventArgs());
+                    ByteDeleted?.Invoke(this, EventArgs.Empty);
 
                     return true;
                 }
@@ -515,7 +515,7 @@ namespace WpfHexaEditor
             else if (KeyValidator.IsBackspaceKey(e.Key))
             {
                 e.Handled = true;
-                ByteDeleted?.Invoke(this, new EventArgs());
+                ByteDeleted?.Invoke(this, EventArgs.Empty);
 
                 MovePrevious?.Invoke(this, new ByteEventArgs(BytePositionInStream));
 
@@ -524,37 +524,37 @@ namespace WpfHexaEditor
             else if (KeyValidator.IsEscapeKey(e.Key))
             {
                 e.Handled = true;
-                EscapeKey?.Invoke(this, new EventArgs());
+                EscapeKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else if (KeyValidator.IsCtrlZKey(e.Key))
             {
                 e.Handled = true;
-                CtrlzKey?.Invoke(this, new EventArgs());
+                CtrlzKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else if (KeyValidator.IsCtrlYKey(e.Key))
             {
                 e.Handled = true;
-                CtrlyKey?.Invoke(this, new EventArgs());
+                CtrlyKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else if (KeyValidator.IsCtrlVKey(e.Key))
             {
                 e.Handled = true;
-                CtrlvKey?.Invoke(this, new EventArgs());
+                CtrlvKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else if (KeyValidator.IsCtrlCKey(e.Key))
             {
                 e.Handled = true;
-                CtrlcKey?.Invoke(this, new EventArgs());
+                CtrlcKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else if (KeyValidator.IsCtrlAKey(e.Key))
             {
                 e.Handled = true;
-                CtrlaKey?.Invoke(this, new EventArgs());
+                CtrlaKey?.Invoke(this, EventArgs.Empty);
                 return true;
             }
 

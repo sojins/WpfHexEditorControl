@@ -21,7 +21,7 @@ namespace WpfHexaEditor
         #region Global class variables
 
         private bool _tblShowMte = true;
-        private readonly bool _barchart = false;
+        private readonly bool _barchart;
         private readonly double _width = 12d;
 
         #endregion Global variable
@@ -74,7 +74,7 @@ namespace WpfHexaEditor
         /// <summary>
         /// This byte is an MTE
         /// </summary>
-        public bool IsMTE { get; internal set; } = false;
+        public bool IsMTE { get; internal set; }
 
         #endregion Characters tables
 
@@ -205,7 +205,7 @@ namespace WpfHexaEditor
                 if (Byte is null) return;
 
                 //Draw chart
-                int fillHeight = PercentValue * (int)_parent.LineHeight / 100;
+                var fillHeight = PercentValue * (int)_parent.LineHeight / 100;
 
                 dc.DrawRectangle(_parent.BarChartColor,
                     null,

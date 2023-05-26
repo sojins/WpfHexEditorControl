@@ -30,7 +30,7 @@ namespace WpfHexaEditor.Core.Bytes
 
             //Char[] with fixed size is always
             var chs = new char[saveBits];
-            for (int i = 1; i <= saveBits; i++)
+            for (var i = 1; i <= saveBits; i++)
             {
                 chs[saveBits - i] = (char)(val % 10 + 48);
                 val /= 10;
@@ -119,7 +119,7 @@ namespace WpfHexaEditor.Core.Bytes
         /// <summary>
         /// Converts the byte to a hex string. For example: "10" = "0A";
         /// </summary>
-        public static string ByteToHex(byte val) => new string(ByteToHexCharArray(val));
+        public static string ByteToHex(byte val) => new(ByteToHexCharArray(val));
 
         /// <summary>
         /// Convert byte to ASCII string
