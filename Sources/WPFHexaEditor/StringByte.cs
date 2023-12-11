@@ -42,6 +42,7 @@ namespace WpfHexaEditor
         /// Next Byte of this instance (used for TBL/MTE decoding)
         /// </summary>
         public byte? ByteNext { get; set; }
+        public byte? ByteNext3rd { get; set; }
 
         #endregion Properties
 
@@ -101,8 +102,13 @@ namespace WpfHexaEditor
 
                             var content = "#";
 
-
-                            if (TblShowMte && ByteNext.HasValue)
+                            // 3 Bytes
+                            if (TblShowMte && ByteNext3rd.HasValue)
+                                (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
+                                                                      ByteConverters.ByteToHex(ByteNext.Value) +
+                                                                      ByteConverters.ByteToHex(ByteNext3rd.Value), true);
+                            // 2 Bytes
+                            else if (TblShowMte && ByteNext.HasValue)
                                 (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
                                                                       ByteConverters.ByteToHex(ByteNext.Value), true);
 

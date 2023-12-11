@@ -31,12 +31,12 @@ namespace WpfHexaEditor.Core.CharacterTable
 
         #region Constructors
         /// <summary>
-        /// Constructeur permétant de charg?le fichier DTE
+        /// Constructeur perm?ant de charg?le fichier DTE
         /// </summary>
         public TblStream(string fileName) => FileName = fileName;
 
         /// <summary>
-        /// Constructeur permétant de chargéle fichier DTE
+        /// Constructeur perm?ant de charg?e fichier DTE
         /// </summary>
         public TblStream() { }
         #endregion
@@ -152,6 +152,10 @@ namespace WpfHexaEditor.Core.CharacterTable
                             dte = new Dte(info[0], info[1].Substring(0, info[1].Length - 1),
                                 DteType.MultipleTitleEncoding);
                             break;
+                        case 6: // 2*3 UTF8
+                            dte = new Dte(info[0], info[1].Substring(0, info[1].Length - 1),
+                                DteType.MultipleTitleEncoding);
+                            break;
                         default:
                             continue;
                     }
@@ -222,7 +226,7 @@ namespace WpfHexaEditor.Core.CharacterTable
             StreamReader tblFile;
             try
             {
-                tblFile = new StreamReader(_fileName, Encoding.ASCII);
+                tblFile = new StreamReader(_fileName, Encoding.UTF8);
             }
             catch
             {

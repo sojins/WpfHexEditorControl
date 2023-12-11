@@ -3037,6 +3037,8 @@ namespace WpfHexaEditor
                             {
                                 var (singleByte, succes) = _provider.GetByte(c.BytePositionInStream + 1);
                                 c.ByteNext = succes ? singleByte : null;
+                                (singleByte, succes) = _provider.GetByte(c.BytePositionInStream + 2);
+                                c.ByteNext3rd = succes ? singleByte : null;
                             }
                             #endregion
 
