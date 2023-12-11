@@ -133,6 +133,7 @@ namespace WPFHexaEditorExample
             CTableAsciiButton.IsChecked = false;
             CTableTblButton.IsChecked = true;
             CTableTblDefaultAsciiButton.IsChecked = false;
+            CTableTblDefaultUtf8Button.IsChecked = false;
 
             Application.Current.MainWindow.Cursor = null;
         }
@@ -141,12 +142,43 @@ namespace WPFHexaEditorExample
         {
             Application.Current.MainWindow.Cursor = Cursors.Wait;
 
+            CTableTblDefaultUtf8Button.IsChecked = false;
+            CTableTblDefaultEucKrButton.IsChecked = false;
             HexEdit.TypeOfCharacterTable = CharacterTableType.TblFile;
             HexEdit.LoadDefaultTbl();
 
             Application.Current.MainWindow.Cursor = null;
         }
 
+        private void CTableTBLDefaultUTF8Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            CTableTblDefaultUtf8Button.IsChecked = true;
+            CTableTblDefaultEucKrButton.IsChecked = false;
+            CTableTblButton.IsChecked = false;
+            CTableTblDefaultAsciiButton.IsChecked = false;
+
+            HexEdit.TypeOfCharacterTable = CharacterTableType.TblFile;
+            HexEdit.LoadDefaultTbl(DefaultCharacterTableType.Utf8);
+
+            Application.Current.MainWindow.Cursor = null;
+        }
+        
+        private void CTableTBLDefaultEucKrButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            CTableTblDefaultEucKrButton.IsChecked = true;
+            CTableTblDefaultUtf8Button.IsChecked = false;
+            CTableTblButton.IsChecked = false;
+            CTableTblDefaultAsciiButton.IsChecked = false;
+
+            HexEdit.TypeOfCharacterTable = CharacterTableType.TblFile;
+            HexEdit.LoadDefaultTbl(DefaultCharacterTableType.EucKr);
+
+            Application.Current.MainWindow.Cursor = null;
+        }
         private void SaveAsMenu_Click(object sender, RoutedEventArgs e)
         {
             var fileDialog = new SaveFileDialog();

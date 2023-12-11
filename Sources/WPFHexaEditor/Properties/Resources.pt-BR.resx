@@ -184,6 +184,12 @@
   <data name="EBCDICNoSpecialChar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EBCDIC-NoSpecialChar.tbl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="UTF8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+	<value>..\Resources\UTF8.tbl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EUCKR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+	<value>..\Resources\EUCKR.tbl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="EndTagString" xml:space="preserve">
     <value>&lt;end&gt;</value>
   </data>

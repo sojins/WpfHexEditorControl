@@ -52,6 +52,8 @@
   <ItemGroup>
     <None Remove="Resources\EBCDIC-NoSpecialChar.tbl" />
     <None Remove="Resources\EBCDIC.tbl" />
+	<None Remove="Resources\UTF8.tbl" />
+    <None Remove="Resources\EUCKR.tbl" />
     <None Remove="Resources\Icon\0x-Icon.ico" />
     <None Remove="Resources\Icon\Add-Bookmark-Icon.ico" />
     <None Remove="Resources\Icon\Clear-Bookmark-Icon.ico" />
@@ -69,6 +71,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\EBCDIC.tbl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\UTF8.tbl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\EUCKR.tbl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -24,6 +24,11 @@ namespace WpfHexaEditor.Core.CharacterTable
         private string _fileName = string.Empty;
 
         /// <summary>
+        /// TBL encode type
+        /// </summary>
+        private DefaultCharacterTableType _encodeType = DefaultCharacterTableType.Ascii;
+
+        /// <summary>
         /// Represente the whole TBL file
         /// </summary>
         private Dictionary<string, Dte> _dteList = new();
@@ -340,6 +345,13 @@ namespace WpfHexaEditor.Core.CharacterTable
         }
 
         /// <summary>
+        /// Get or set the Encode Type of TBL
+        /// </summary>
+        public DefaultCharacterTableType EncodeType
+        {
+            get => _encodeType;
+        }
+        /// <summary>
         /// Get the count of DTE/MTE in the TBL
         /// </summary>
         public int Length => _dteList.Count;
@@ -412,9 +424,16 @@ namespace WpfHexaEditor.Core.CharacterTable
                 case DefaultCharacterTableType.EbcdicNoSpecialChar:
                     tbl.Load(Properties.Resources.EBCDICNoSpecialChar);
                     break;
+                case DefaultCharacterTableType.Utf8:
+                    tbl.Load(Properties.Resources.UTF8);
+                    break;
+                case DefaultCharacterTableType.EucKr:
+                    tbl.Load(Properties.Resources.EUCKR);
+                    break;
             }
 
             tbl.AllowEdit = true;
+            tbl._encodeType = type;
             return tbl;
         }
 

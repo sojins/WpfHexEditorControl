@@ -101,16 +101,22 @@ namespace WpfHexaEditor
                             ReadOnlyMode = !TblCharacterTable.AllowEdit;
 
                             var content = "#";
-
                             // 3 Bytes
-                            if (TblShowMte && ByteNext3rd.HasValue)
-                                (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
-                                                                      ByteConverters.ByteToHex(ByteNext.Value) +
-                                                                      ByteConverters.ByteToHex(ByteNext3rd.Value), true);
+                            if (TblCharacterTable.EncodeType == DefaultCharacterTableType.Utf8)
+                            {
+                                if (TblShowMte && ByteNext3rd.HasValue)
+                                    (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
+                                                                          ByteConverters.ByteToHex(ByteNext.Value) +
+                                                                          ByteConverters.ByteToHex(ByteNext3rd.Value), true);
+                            }
+
                             // 2 Bytes
-                            else if (TblShowMte && ByteNext.HasValue)
-                                (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
-                                                                      ByteConverters.ByteToHex(ByteNext.Value), true);
+                            if (TblCharacterTable.EncodeType != DefaultCharacterTableType.Ascii)
+                            {
+                                if (content == "#" && TblShowMte && ByteNext.HasValue)
+                                    (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
+                                                                          ByteConverters.ByteToHex(ByteNext.Value), true);
+                            }
 
                             if (content == "#")
                                 content = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]), true).text;

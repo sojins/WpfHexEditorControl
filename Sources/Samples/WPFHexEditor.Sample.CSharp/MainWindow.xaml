@@ -149,6 +149,14 @@
                             x:Name="CTableTblDefaultAsciiButton"
                             Click="CTableTBLDefaultASCIIButton_Click"
                             Header="Load Build-in TBL : ASCII" />
+                        <MenuItem
+                            x:Name="CTableTblDefaultUtf8Button"
+                            Click="CTableTBLDefaultUTF8Button_Click"
+                            Header="Load Build-in TBL : UTF-8" />
+                        <MenuItem
+                            x:Name="CTableTblDefaultEucKrButton"
+                            Click="CTableTBLDefaultEucKrButton_Click"
+                            Header="Load Build-in TBL : EUC-KR" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="PositionMenu" Header="Position">

@@ -23,7 +23,9 @@ namespace WpfHexaEditor.Core.CharacterTable
     {
         Ascii,
         EbcdicWithSpecialChar,
-        EbcdicNoSpecialChar
+        EbcdicNoSpecialChar,
+        Utf8,
+        EucKr
         //MACINTOSH
         //DOS/IBM-ASCII
     }
