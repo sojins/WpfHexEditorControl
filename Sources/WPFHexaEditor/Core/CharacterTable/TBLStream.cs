@@ -36,12 +36,12 @@ namespace WpfHexaEditor.Core.CharacterTable
 
         #region Constructors
         /// <summary>
-        /// Constructeur permant de charge fichier DTE
+        /// Constructeur permetant de chargele fichier DTE
         /// </summary>
         public TblStream(string fileName) => FileName = fileName;
 
         /// <summary>
-        /// Constructeur permant de charge fichier DTE
+        /// Constructeur permetant de chargele fichier DTE
         /// </summary>
         public TblStream() { }
         #endregion

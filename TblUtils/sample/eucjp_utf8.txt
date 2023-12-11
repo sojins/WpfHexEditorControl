@@ -1,0 +1,21 @@
+﻿[python3] EUC-JPなのにShift-JISの機種依存文字が入っててUTF-8にできなかったときの?策
+Python
+スクレイピング
+Python3
+Posted at 2021-05-12
+表題の通りです。
+先人が機種依存文字?策に苦心した痕跡がちらりほらり…
+※ はしご高とかそういうタイプの機種依存文字はこの記事では扱いません。
+
+環境
+Windows 10
+Python 3.8.5
+スクレイピング：requests
+
+?況（?まなくても良い）
+最近 seesaawiki の記事の自サイトへの移植をごそごそとしているのですが。
+
+seesaawikiからスクレイピングでHTMLソ?スを取得すると、
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+とあって確かに EUC-JP のはずなのに、wikiソ?ス?で「①」のような Shift-JIS の機種依存文字が使えるせいでたまにこれが紛れてくるんです。
+で普通に

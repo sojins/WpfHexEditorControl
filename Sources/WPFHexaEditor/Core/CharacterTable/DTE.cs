@@ -8,7 +8,7 @@ using System;
 namespace WpfHexaEditor.Core.CharacterTable
 {
     /// <summary>
-    /// Objet repr?entant un DTE.
+    /// Objet reprentant un DTE.
     /// </summary>
     public sealed class Dte
     {
@@ -28,7 +28,7 @@ namespace WpfHexaEditor.Core.CharacterTable
         }
 
         /// <summary>
-        /// Contructeur permetant d'ajouter une entr? et une valeur
+        /// Contructeur permetant d'ajouter une entree et une valeur
         /// </summary>
         /// <param name="entry">Nom du DTE</param>
         /// <param name="value">Valeur du DTE</param>
@@ -40,7 +40,7 @@ namespace WpfHexaEditor.Core.CharacterTable
         }
 
         /// <summary>
-        /// Contructeur permetant d'ajouter une entr?, une valeur et une description
+        /// Contructeur permetant d'ajouter une entree, une valeur et une description
         /// </summary>
         /// <param name="entry">Nom du DTE</param>
         /// <param name="value">Valeur du DTE</param>
@@ -54,7 +54,7 @@ namespace WpfHexaEditor.Core.CharacterTable
 
         #endregion Constructeurs
 
-        #region Propri??
+        #region Proprietes
 
         /// <summary>
         /// Nom du DTE
@@ -77,9 +77,9 @@ namespace WpfHexaEditor.Core.CharacterTable
         /// </summary>
         public DteType Type { get; }
 
-        #endregion Propri??
+        #endregion Proprietes
 
-        #region M?hodes
+        #region Methodes
 
         /// <summary>
         /// Cette fonction permet de retourner le DTE sous forme : [Entry]=[Valeur]
@@ -89,7 +89,7 @@ namespace WpfHexaEditor.Core.CharacterTable
             ? _entry + "=" + Value
             : _entry;
 
-        #endregion M?hodes
+        #endregion Methodes
 
         #region Methodes Static
 
