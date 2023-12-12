@@ -111,7 +111,8 @@ namespace WpfHexaEditor
                             }
 
                             // 2 Bytes
-                            if (TblCharacterTable.EncodeType != DefaultCharacterTableType.Ascii)
+                            // TODO: Set multi-byte encode type first!
+                            //if (TblCharacterTable.EncodeType != DefaultCharacterTableType.Ascii)
                             {
                                 if (content == "#" && TblShowMte && ByteNext.HasValue)
                                     (content, dteType) = TblCharacterTable.FindMatch(ByteConverters.ByteToHex(Byte.Byte[0]) +
